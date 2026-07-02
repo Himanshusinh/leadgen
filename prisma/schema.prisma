@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // Local dev default = SQLite (zero setup). For production switch this to
+  // "postgresql" and point DATABASE_URL at your Postgres (see README).
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  password  String
+  name      String?
+  createdAt DateTime   @default(now())
+  campaigns Campaign[]
+}
+
+model Campaign {
+  id        String   @id @default(cuid())
+  name      String
+  industry  String // e.g. "dentist", "gym", "physiotherapy"
+  country   String?
+  state     String?
+  city      String?
+  createdAt DateTime @default(now())
+
+  emailSubject String?
+  emailBody    String?
+  templateAttachmentName String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  leads  Lead[]
+
+  @@index([userId])
+}
+
+model Lead {
+  id        String  @id @default(cuid())
+  name      String
+  website   String?
+  email     String?
+  phone     String?
+  address   String?
+  city      String?
+  state     String?
+  country   String?
+  rating    Float?
+  reviews   Int?
+
+  // Phase 2 enrichment
+  emailStatus String  @default("unknown") // unknown | valid | invalid | catchall | unverified
+  emailSource String? // places | hunter
+  score       Int     @default(0) // 0-100 lead quality score
+  enriched    Boolean @default(false)
+
+  // Dedupe key: lower(name)+placeId or domain
+  dedupeKey String?
+  placeId   String?
+
+  status    String   @default("new") // new | contacted | interested | won | lost
+  emailSentAt DateTime?
+  createdAt DateTime @default(now())
+
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, dedupeKey])
+  @@index([campaignId])
+}
