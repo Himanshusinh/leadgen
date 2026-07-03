@@ -1,619 +1,768 @@
-<!DOCTYPE html
-    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FLYBIT Dynamics</title>
+    <meta charset="UTF-8">
+    <title>Wildmind Solutions</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Poppins:wght@300;400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
         rel="stylesheet">
-    <style type="text/css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        @keyframes glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 14px 2px rgba(90, 169, 230, 0.35);
+            }
+
+            50% {
+                box-shadow: 0 0 22px 6px rgba(90, 169, 230, 0.6);
+            }
+        }
+
+        @keyframes rise {
+            0% {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         body {
             margin: 0;
             padding: 0;
-            background-color: #0a0a0c;
-            font-family: 'Poppins', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            color: #d8d6cf;
-            -webkit-text-size-adjust: 100%;
-            -ms-text-size-adjust: 100%;
+            background: #0a0b0e;
+            font-family: 'Poppins', Arial, sans-serif;
+            color: #d3d4dc;
         }
 
-        table,
-        td {
-            mso-table-lspace: 0pt;
-            mso-table-rspace: 0pt;
+        .wrapper {
+            max-width: 640px;
+            margin: 0 auto;
+            background: #0a0b0e;
+            border: 1px solid #1c1f27;
         }
 
-        img {
-            -ms-interpolation-mode: bicubic;
-            border: 0;
-            height: auto;
-            line-height: 100%;
-            outline: none;
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            height: 340px;
+            background: radial-gradient(ellipse at 50% 100%, #10141f 0%, #05060a 75%);
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .hero svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .brand {
+            position: relative;
+            z-index: 5;
+            padding-top: 44px;
+            animation: rise 1.4s ease-out;
+        }
+
+        .brand .mark {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #f1f3fa;
+            margin: 0;
+        }
+
+        .brand .mark span {
+            color: #5aa9e6;
+        }
+
+        .brand .sub {
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: #7c7f93;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+
+        .hero-line {
+            position: relative;
+            z-index: 5;
+            margin-top: 190px;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 14.5px;
+            color: #c3c6d6;
+            padding: 0 55px;
+            animation: rise 1.8s ease-out;
+        }
+
+        /* ===== BODY ===== */
+        .content {
+            padding: 46px 44px 20px 44px;
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: #5aa9e6;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #f1f3fa;
+            margin: 0 0 18px 0;
+            line-height: 1.35;
+        }
+
+        .content p {
+            font-size: 14.5px;
+            line-height: 1.85;
+            color: #a6a8b8;
+            font-weight: 300;
+        }
+
+        .divider {
+            width: 46px;
+            height: 1px;
+            background: #5aa9e6;
+            margin: 26px 0;
+        }
+
+        /* ===== PROBLEM -> SOLUTION STRIP ===== */
+        .diagnostic {
+            margin: 30px 0 6px 0;
+            border: 1px solid #1c1f27;
+            background: #0d0f15;
+        }
+
+        .diagnostic-head {
+            display: flex;
+            border-bottom: 1px solid #1c1f27;
+        }
+
+        .diagnostic-head div {
+            flex: 1;
+            padding: 12px 20px;
+            font-size: 10.5px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .diagnostic-head .p-label {
+            color: #7c7f93;
+            border-right: 1px solid #1c1f27;
+        }
+
+        .diagnostic-head .s-label {
+            color: #5aa9e6;
+        }
+
+        .diagnostic-row {
+            display: flex;
+            border-bottom: 1px solid #171921;
+        }
+
+        .diagnostic-row:last-child {
+            border-bottom: none;
+        }
+
+        .diagnostic-row .p-cell {
+            flex: 1;
+            padding: 16px 20px;
+            font-size: 13px;
+            color: #8c8fa0;
+            font-weight: 300;
+            line-height: 1.6;
+            border-right: 1px solid #1c1f27;
+        }
+
+        .diagnostic-row .s-cell {
+            flex: 1;
+            padding: 16px 20px;
+            font-size: 13px;
+            color: #dfe1ec;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .quote {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 15px;
+            color: #d3d6e6;
+            border-left: 1px solid #5aa9e6;
+            padding-left: 20px;
+            margin: 26px 0;
+            line-height: 1.7;
+        }
+
+        /* ===== SOLUTIONS (formerly "services") ===== */
+        .services {
+            margin: 10px 0 8px 0;
+        }
+
+        .service-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 22px 0;
+            border-bottom: 1px solid #171921;
+        }
+
+        .service-row:last-child {
+            border-bottom: none;
+        }
+
+        .service-num {
+            flex: 0 0 46px;
+            font-family: 'Playfair Display', serif;
+            font-size: 13px;
+            letter-spacing: 1px;
+            color: #5aa9e6;
+            padding-top: 3px;
+        }
+
+        .service-text h3 {
+            margin: 2px 0 8px 0;
+            font-size: 15px;
+            font-weight: 500;
+            color: #f1f3fa;
+            letter-spacing: 0.4px;
+        }
+
+        .service-text .solved-tag {
+            display: inline-block;
+            font-size: 9.5px;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: #5aa9e6;
+            border: 1px solid #223047;
+            background: #0d1420;
+            padding: 3px 9px;
+            border-radius: 3px;
+            margin-bottom: 9px;
+        }
+
+        .service-text p {
+            margin: 0;
+            font-size: 13.5px;
+            color: #9395a8;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* ===== STATS ===== */
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin: 34px 0 8px 0;
+            padding: 24px 10px;
+            border-top: 1px solid #171921;
+            border-bottom: 1px solid #171921;
+        }
+
+        .stat h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 21px;
+            color: #5aa9e6;
+            margin: 0 0 4px 0;
+        }
+
+        .stat p {
+            font-size: 10.5px;
+            color: #797c8f;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* ===== PROCESS ===== */
+        .process {
+            margin: 34px 0 10px 0;
+        }
+
+        .process h4 {
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #5aa9e6;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .process-step {
+            display: flex;
+            gap: 16px;
+            padding: 12px 0;
+        }
+
+        .process-step .dot {
+            flex: 0 0 8px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #5aa9e6;
+            margin-top: 6px;
+        }
+
+        .process-step .step-text {
+            font-size: 13px;
+            color: #a6a8b8;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        .process-step .step-text b {
+            color: #f1f3fa;
+            font-weight: 500;
+        }
+
+        /* ===== INTEGRATIONS STRIP ===== */
+        .integrations {
+            margin: 30px 0 10px 0;
+        }
+
+        .integrations h4 {
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #5aa9e6;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            font-size: 11.5px;
+            color: #b9bccb;
+            border: 1px solid #262a36;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 300;
+        }
+
+        /* ===== CTA ===== */
+        .cta {
+            text-align: center;
+            margin: 40px 0 8px 0;
+        }
+
+        .cta a {
+            display: inline-block;
+            background: transparent;
+            border: 1px solid #5aa9e6;
+            color: #f1f3fa;
+            text-decoration: none;
+            padding: 14px 40px;
+            font-size: 12px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        .cta p {
+            font-size: 12px;
+            color: #797c8f;
+            margin-top: 14px;
+        }
+
+        /* ===== SIGNATURE ===== */
+        .sign {
+            padding: 30px 44px 10px 44px;
+            font-size: 13.5px;
+            color: #a6a8b8;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .sign b {
+            color: #f1f3fa;
+            font-weight: 500;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #05060a;
+            border-top: 1px solid #1c1f27;
+            padding: 30px 44px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 15px;
+            letter-spacing: 3px;
+            color: #f1f3fa;
+            margin-bottom: 14px;
+        }
+
+        .footer-logo span {
+            color: #5aa9e6;
+        }
+
+        .footer p {
+            font-size: 12.5px;
+            color: #797c8f;
+            line-height: 1.9;
+            margin: 0;
+            font-weight: 300;
+        }
+
+        .footer a {
+            color: #5aa9e6;
             text-decoration: none;
         }
 
-        /* Interactive CTA Hover */
-        .cta-btn:hover {
-            background-color: #c9a227 !important;
-            color: #0a0a0c !important;
-            box-shadow: 0 0 15px rgba(201, 162, 39, 0.6) !important;
+        .legal {
+            text-align: center;
+            font-size: 10px;
+            color: #45485a;
+            margin-top: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 480px) {
+
+            .content,
+            .sign,
+            .footer {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .diagnostic-head div,
+            .diagnostic-row .p-cell,
+            .diagnostic-row .s-cell {
+                padding: 12px 14px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
 
-<body
-    style="margin: 0; padding: 0; background-color: #0a0a0c; font-family: 'Poppins', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #d8d6cf;">
-    <!-- WRAPPER TABLE -->
-    <table width="100%" cellpadding="0" cellspacing="0" border="0"
-        style="background-color: #0a0a0c; min-width: 100%; margin: 0; padding: 0;">
-        <tr>
-            <td align="center" style="padding: 20px 10px;">
-                <!-- INNER CONTAINER -->
-                <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                    style="max-width: 650px; background-color: #0a0a0c; border: 1px solid #232016; border-collapse: collapse;">
+<body>
+    <div class="wrapper">
+        <!-- HERO -->
+        <div class="hero">
+            <svg viewBox="0 0 640 340" preserveAspectRatio="xMidYMid slice">
+                <g opacity="0.55" stroke="#5aa9e6" stroke-width="1" fill="none">
+                    <path d="M40 260 L160 200 L260 230 L340 160 L440 190 L520 120 L600 150" stroke-dasharray="6 8">
+                        <animate attributeName="stroke-dashoffset" from="0" to="-400" dur="14s"
+                            repeatCount="indefinite" />
+                    </path>
+                    <path d="M20 120 L120 150 L210 90 L300 120 L390 70 L480 100 L580 60" stroke-dasharray="4 10"
+                        opacity="0.4">
+                        <animate attributeName="stroke-dashoffset" from="0" to="400" dur="18s"
+                            repeatCount="indefinite" />
+                    </path>
+                    <path d="M60 80 L150 60 L240 100 L330 50 L420 90 L510 40" stroke-dasharray="3 9" opacity="0.3">
+                        <animate attributeName="stroke-dashoffset" from="0" to="-350" dur="16s"
+                            repeatCount="indefinite" />
+                    </path>
+                </g>
+                <g fill="#5aa9e6">
+                    <circle cx="160" cy="200" r="2">
+                        <animate attributeName="opacity" values="0.3;1;0.3" dur="2.4s" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="260" cy="230" r="2">
+                        <animate attributeName="opacity" values="0.3;1;0.3" dur="2.1s" repeatCount="indefinite"
+                            begin="0.3s" />
+                    </circle>
+                    <circle cx="340" cy="160" r="2">
+                        <animate attributeName="opacity" values="0.3;1;0.3" dur="2.6s" repeatCount="indefinite"
+                            begin="0.5s" />
+                    </circle>
+                    <circle cx="440" cy="190" r="2">
+                        <animate attributeName="opacity" values="0.3;1;0.3" dur="2.2s" repeatCount="indefinite"
+                            begin="0.2s" />
+                    </circle>
+                    <circle cx="520" cy="120" r="2">
+                        <animate attributeName="opacity" values="0.3;1;0.3" dur="2.5s" repeatCount="indefinite"
+                            begin="0.7s" />
+                    </circle>
+                    <circle cx="120" cy="150" r="1.6">
+                        <animate attributeName="opacity" values="0.2;0.9;0.2" dur="2.3s" repeatCount="indefinite"
+                            begin="0.4s" />
+                    </circle>
+                    <circle cx="300" cy="120" r="1.6">
+                        <animate attributeName="opacity" values="0.2;0.9;0.2" dur="2.7s" repeatCount="indefinite"
+                            begin="0.1s" />
+                    </circle>
+                    <circle cx="390" cy="70" r="1.6">
+                        <animate attributeName="opacity" values="0.2;0.9;0.2" dur="2.1s" repeatCount="indefinite"
+                            begin="0.6s" />
+                    </circle>
+                    <circle cx="480" cy="100" r="1.6">
+                        <animate attributeName="opacity" values="0.2;0.9;0.2" dur="2.4s" repeatCount="indefinite"
+                            begin="0.3s" />
+                    </circle>
+                    <circle cx="150" cy="60" r="1.4">
+                        <animate attributeName="opacity" values="0.2;0.8;0.2" dur="2.9s" repeatCount="indefinite"
+                            begin="0.5s" />
+                    </circle>
+                    <circle cx="330" cy="50" r="1.4">
+                        <animate attributeName="opacity" values="0.2;0.8;0.2" dur="2.5s" repeatCount="indefinite"
+                            begin="0.2s" />
+                    </circle>
+                </g>
+            </svg>
+            <div class="brand">
+                <p class="mark">WILD<span>MIND</span> SOLUTIONS</p>
+                <p class="sub">Software &amp; AI Solutions &nbsp;&middot;&nbsp; India &amp; GCC</p>
+            </div>
+            <p class="hero-line">"You already know the problem. We're the ones who build the fix — and ship it."</p>
+        </div>
 
-                    <!-- BRAND HEADER -->
-                    <tr>
-                        <td align="left" style="padding: 30px 44px 20px 44px;">
-                            <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                                style="width: 100%; border-collapse: collapse;">
-                                <tr>
-                                    <td align="left" valign="middle">
-                                        <img src="https://files.catbox.moe/tgbz1g.png" width="180" alt="Flybit Dynamics"
-                                            style="display: block; border: 0; outline: none; text-decoration: none; max-width: 100%; height: auto;" />
-                                    </td>
-                                    <td align="right" valign="middle">
-                                        <p
-                                            style="font-size: 11px; letter-spacing: 4px; color: #8a8776; text-transform: uppercase; margin: 0; line-height: 1.3; text-align: right; white-space: nowrap;">
-                                            Drone Light Show &nbsp;&middot;&nbsp; India
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+        <!-- CONTENT -->
+        <div class="content">
+            <p class="eyebrow">A Note From Wildmind Solutions</p>
+            <h2>If Something in Your Business Runs on Spreadsheets, WhatsApp Threads, or Tribal Knowledge — That's What
+                We Fix</h2>
+            <p>
+                We're not a product company asking you to adopt our tool. We're a
+                solutions partner: you bring us the operational problem, we design,
+                build, and ship the software that solves it — engineered around how
+                your business actually runs, not a one-size template.
+            </p>
+            <p>
+                Everything we build is grounded in production experience, not
+                consulting theory. We run our own generative AI platform in production
+                today, at real scale, which is where the engineering discipline behind
+                every client solution comes from.
+            </p>
 
-                    <!-- HERO IMAGE WITH OVERLAY TEXT AT THE BOTTOM -->
-                    <tr>
-                        <td align="center" background="https://files.catbox.moe/imtm7m.png" bgcolor="#0a0a0c"
-                            valign="bottom"
-                            style="background-image: url('https://files.catbox.moe/imtm7m.png'); background-position: center bottom; background-size: cover; background-repeat: no-repeat; height: 380px; padding: 0;">
-                            <!--[if gte mso 9]>
-                            <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:650px;height:380px;">
-                              <v:fill type="tile" src="https://files.catbox.moe/imtm7m.png" color="#0a0a0c" />
-                              <v:textbox inset="0,0,0,0">
-                            <![endif]-->
-                            <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                                style="border-collapse: collapse; width: 100%;">
-                                <tr>
-                                    <!-- A subtle dark gradient overlay at the bottom to ensure high text readability -->
-                                    <td align="center"
-                                        style="padding: 60px 40px 25px 40px; background: linear-gradient(180deg, rgba(10, 10, 12, 0) 0%, rgba(10, 10, 12, 0.95) 100%);">
-                                        <p
-                                            style="font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 16.5px; color: #f3ead9; text-align: center; margin: 0; line-height: 1.6; text-shadow: 0 2px 12px rgba(0, 0, 0, 1), 0 1px 4px rgba(0, 0, 0, 1); font-weight: 500;">
-                                            "We craft experiences that touch hearts and create memories that last a
-                                            lifetime."
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-                            <!--[if gte mso 9]>
-                              </v:textbox>
-                            </v:rect>
-                            <![endif]-->
-                        </td>
-                    </tr>
+            <div class="diagnostic">
+                <div class="diagnostic-head">
+                    <div class="p-label">The Problem</div>
+                    <div class="s-label">The Solution We Build</div>
+                </div>
+                <div class="diagnostic-row">
+                    <div class="p-cell">Manual order tracking, scattered spreadsheets, no single source of truth</div>
+                    <div class="s-cell">A unified operations platform — inventory, dispatch, and reporting in one place
+                    </div>
+                </div>
+                <div class="diagnostic-row">
+                    <div class="p-cell">Sales leads falling through the cracks between calls, WhatsApp, and email</div>
+                    <div class="s-cell">A custom CRM built around your actual sales process, not a generic pipeline
+                    </div>
+                </div>
+                <div class="diagnostic-row">
+                    <div class="p-cell">Support and sales teams answering the same questions all day, every day</div>
+                    <div class="s-cell">AI agents and WhatsApp automation that resolve the repeatable work for you</div>
+                </div>
+                <div class="diagnostic-row">
+                    <div class="p-cell">Your tools don't talk to each other — data re-entered by hand across systems
+                    </div>
+                    <div class="s-cell">Deep integrations that connect your accounting, CRM, payments, and logistics
+                        stack</div>
+                </div>
+            </div>
 
-                    <!-- CONTENT BLOCK -->
-                    <tr>
-                        <td style="padding: 25px 44px 20px 44px;">
-                            <!-- EYEBROW -->
-                            <p
-                                style="font-size: 11px; letter-spacing: 3px; color: #c9a227; text-transform: uppercase; margin: 0 0 10px 0; font-weight: 500; line-height: 1.3;">
-                                A Note From Flybit Dynamics
-                            </p>
-                            <!-- MAIN HEADING -->
-                            <h2
-                                style="font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 600; color: #f3ead9; margin: 0 0 18px 0; line-height: 1.35;">
-                                Turn the Night Sky Into Your Canvas
-                            </h2>
-                            <!-- PARAGRAPHS -->
-                            <p
-                                style="font-size: 14.5px; line-height: 1.85; color: #aca997; font-weight: 300; margin: 0 0 16px 0;">
-                                Imagine your wedding night, product launch, or milestone celebration lit up by hundreds
-                                of synchronised drones painting stories across the sky — no fireworks, no noise, just
-                                pure spectacle.
-                            </p>
-                            <p
-                                style="font-size: 14.5px; line-height: 1.85; color: #aca997; font-weight: 300; margin: 0 0 20px 0;">
-                                We are <b style="color: #f3ead9; font-weight: 500;">Flybit Dynamics Pvt Ltd</b>, a
-                                premier drone light show company delivering large-scale, DGCA-compliant aerial displays
-                                for weddings, corporate launches, and custom celebrations across India.
-                            </p>
+            <div class="divider"></div>
 
-                            <!-- DIVIDER -->
-                            <table cellpadding="0" cellspacing="0" border="0"
-                                style="border-collapse: collapse; margin: 25px 0;">
-                                <tr>
-                                    <td width="46" height="1"
-                                        style="background-color: #c9a227; font-size: 1px; line-height: 1px;">&nbsp;</td>
-                                </tr>
-                            </table>
+            <p class="eyebrow" style="margin-top:0;">Solutions We Build</p>
+            <div class="services">
+                <div class="service-row">
+                    <div class="service-num">/01</div>
+                    <div class="service-text">
+                        <span class="solved-tag">Fixes: fragmented AI tools</span>
+                        <h3>Generative AI Platforms</h3>
+                        <p>Custom AI products where users create images, video, music, text, and multi-modal content
+                            through one intelligent interface — with model orchestration across OpenAI, Claude, Fal AI,
+                            Runway ML, Gemini, and Stability AI, credit and billing systems, async job queues, and
+                            scaling to hundreds of concurrent users.</p>
+                    </div>
+                </div>
+                <div class="service-row">
+                    <div class="service-num">/02</div>
+                    <div class="service-text">
+                        <span class="solved-tag">Fixes: repetitive manual work</span>
+                        <h3>Agentic AI &amp; Intelligent Assistants</h3>
+                        <p>AI agents that plan multi-step tasks, call APIs, query databases, process documents, trigger
+                            workflows, and take actions autonomously — with human-in-the-loop approval gates for
+                            high-stakes decisions. Covers sales, procurement, support, internal knowledge (RAG),
+                            research, and HR onboarding agents.</p>
+                    </div>
+                </div>
+                <div class="service-row">
+                    <div class="service-num">/03</div>
+                    <div class="service-text">
+                        <span class="solved-tag">Fixes: spreadsheet-run operations</span>
+                        <h3>Enterprise Operations &amp; ERP</h3>
+                        <p>Full digital operations platforms replacing spreadsheets and manual processes — order
+                            management, inventory control, dispatch tracking, supplier portals, procurement workflows,
+                            production scheduling, invoicing, and multi-branch consolidated reporting. Built for
+                            manufacturing, chemicals, trading, distribution, construction, and logistics.</p>
+                    </div>
+                </div>
+                <div class="service-row">
+                    <div class="service-num">/04</div>
+                    <div class="service-text">
+                        <span class="solved-tag">Fixes: leads slipping away</span>
+                        <h3>CRM &amp; Sales Management Systems</h3>
+                        <p>Platforms built around your specific sales process — lead pipelines, contact management, deal
+                            tracking, dashboards, automated follow-ups, WhatsApp and email integration, and forecasting.
+                            Used by real estate brokerages, B2B sales teams, financial services, insurance, and GCC
+                            enterprises needing Arabic-English CRM.</p>
+                    </div>
+                </div>
+                <div class="service-row">
+                    <div class="service-num">/05</div>
+                    <div class="service-text">
+                        <span class="solved-tag">Fixes: outgrowing off-the-shelf tools</span>
+                        <h3>SaaS Product Development</h3>
+                        <p>End-to-end multi-tenant subscription software — architecture, subscription billing,
+                            role-based access control, onboarding flows, analytics dashboards, API-first design, and
+                            white-label capability. Built for HR SaaS, property management, healthcare clinic SaaS,
+                            hospitality, EdTech, and FinTech products for the GCC.</p>
+                    </div>
+                </div>
+                <div class="service-row">
+                    <div class="service-num">/06</div>
+                    <div class="service-text">
+                        <span class="solved-tag">Fixes: slow, disconnected internal tools</span>
+                        <h3>Web Applications &amp; Mobile Apps</h3>
+                        <p>Production-grade web platforms in Next.js and TypeScript — marketing sites, internal portals,
+                            multi-role dashboards, and self-service platforms. On mobile, cross-platform and native apps
+                            in React Native and Flutter for consumer, B2B field, delivery, inspection, and loyalty use
+                            cases.</p>
+                    </div>
+                </div>
+                <div class="service-row">
+                    <div class="service-num">/07</div>
+                    <div class="service-text">
+                        <span class="solved-tag">Fixes: overloaded support teams</span>
+                        <h3>WhatsApp Automation &amp; RAG Knowledge Systems</h3>
+                        <p>Business automation on WhatsApp Business API — automated support, order updates, appointment
+                            reminders, lead qualification, and payment collection. Paired with Retrieval-Augmented
+                            Generation systems grounded in your own documents and databases for accurate,
+                            hallucination-free responses.</p>
+                    </div>
+                </div>
+                <div class="service-row" style="border-bottom:none;">
+                    <div class="service-num">/08</div>
+                    <div class="service-text">
+                        <span class="solved-tag">Fixes: disconnected software stack</span>
+                        <h3>Deep Third-Party Integrations</h3>
+                        <p>Connecting the software we build to the platforms you already use: accounting (Zoho Books,
+                            QuickBooks, Tally, SAP), payments (Razorpay, Stripe, PayTabs, Tabby), CRM/ERP (Salesforce,
+                            HubSpot, SAP, NetSuite, Odoo), logistics (Shiprocket, Aramex, DHL), HR/payroll (Darwinbox,
+                            Keka, BambooHR), and government compliance (GST e-invoicing, ZATCA Saudi, UAE VAT).</p>
+                    </div>
+                </div>
+            </div>
 
-                            <!-- SERVICES LIST (TABLE-BASED FOR GMAIL COMPATIBILITY) -->
-                            <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                                style="border-collapse: collapse; margin-top: 10px;">
+            <div class="stats">
+                <div class="stat">
+                    <h4>500+</h4>
+                    <p>Concurrent Users<br>Live GenAI Platform</p>
+                </div>
+                <div class="stat">
+                    <h4>6+</h4>
+                    <p>Production AI<br>Pipelines</p>
+                </div>
+                <div class="stat">
+                    <h4>10K+</h4>
+                    <p>Media Assets<br>Generated</p>
+                </div>
+                <div class="stat">
+                    <h4>40%</h4>
+                    <p>Latency Reduction<br>Fine-Tuned Models</p>
+                </div>
+            </div>
 
-                                <!-- Service 1 -->
-                                <tr>
-                                    <td style="padding-bottom: 24px; border-bottom: 1px solid #1c1a12;">
-                                        <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                                            style="border-collapse: collapse;">
-                                            <tr>
-                                                <td width="46" valign="top" align="left"
-                                                    style="padding-top: 2px; padding-right: 20px;">
-                                                    <!-- Gold Circle Icon -->
-                                                    <table width="46" height="46" cellpadding="0" cellspacing="0"
-                                                        border="0"
-                                                        style="border: 1px solid #c9a227; border-radius: 50%; border-collapse: collapse; background-color: transparent; width: 46px; height: 46px;">
-                                                        <tr>
-                                                            <td align="center" valign="middle"
-                                                                style="padding: 0; margin: 0; text-align: center; vertical-align: middle; height: 44px; width: 44px;">
-                                                                <img src="https://img.icons8.com/ios-glyphs/24/c9a227/like--v1.png"
-                                                                    width="22" height="22" alt="Heart"
-                                                                    style="display: inline-block; vertical-align: middle; border: 0; outline: none;" />
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td valign="top" align="left" style="text-align: left;">
-                                                    <h3
-                                                        style="margin: 0 0 6px 0; font-size: 15px; font-weight: 500; color: #f3ead9; letter-spacing: 0.4px; line-height: 1.4;">
-                                                        Drone Wedding Shows
-                                                    </h3>
-                                                    <p
-                                                        style="margin: 0; font-size: 13.5px; color: #9c9a89; line-height: 1.7; font-weight: 300;">
-                                                        Bespoke aerial choreography synced to your love story — names,
-                                                        dates and symbols lit up above your venue.
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
+            <div class="quote">
+                "You describe the operational problem. We come back with a working system — not a slide deck."
+            </div>
 
-                                <!-- Service 2 -->
-                                <tr>
-                                    <td
-                                        style="padding-top: 24px; padding-bottom: 24px; border-bottom: 1px solid #1c1a12;">
-                                        <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                                            style="border-collapse: collapse;">
-                                            <tr>
-                                                <td width="46" valign="top" align="left"
-                                                    style="padding-top: 2px; padding-right: 20px;">
-                                                    <!-- Gold Circle Icon -->
-                                                    <table width="46" height="46" cellpadding="0" cellspacing="0"
-                                                        border="0"
-                                                        style="border: 1px solid #c9a227; border-radius: 50%; border-collapse: collapse; background-color: transparent; width: 46px; height: 46px;">
-                                                        <tr>
-                                                            <td align="center" valign="middle"
-                                                                style="padding: 0; margin: 0; text-align: center; vertical-align: middle; height: 44px; width: 44px;">
-                                                                <img src="https://img.icons8.com/ios-glyphs/24/c9a227/briefcase.png"
-                                                                    width="22" height="22" alt="Briefcase"
-                                                                    style="display: inline-block; vertical-align: middle; border: 0; outline: none;" />
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td valign="top" align="left" style="text-align: left;">
-                                                    <h3
-                                                        style="margin: 0 0 6px 0; font-size: 15px; font-weight: 500; color: #f3ead9; letter-spacing: 0.4px; line-height: 1.4;">
-                                                        Corporate &amp; Brand Events
-                                                    </h3>
-                                                    <p
-                                                        style="margin: 0; font-size: 13.5px; color: #9c9a89; line-height: 1.7; font-weight: 300;">
-                                                        Product launches and brand reveals featuring logo formations and
-                                                        message displays that command attention.
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
+            <div class="process">
+                <h4>How We Get You From Problem to Working Software</h4>
+                <div class="process-step">
+                    <div class="dot"></div>
+                    <div class="step-text"><b>Diagnose.</b> A structured discovery workshop to map exactly where the
+                        problem lives in your operations.</div>
+                </div>
+                <div class="process-step">
+                    <div class="dot"></div>
+                    <div class="step-text"><b>Propose.</b> A written solution proposal, scoped and costed, delivered
+                        within 5 business days.</div>
+                </div>
+                <div class="process-step">
+                    <div class="dot"></div>
+                    <div class="step-text"><b>Build.</b> Senior engineers stay from kickoff to launch — the people you
+                        meet are the people who build.</div>
+                </div>
+                <div class="process-step">
+                    <div class="dot"></div>
+                    <div class="step-text"><b>Prove it.</b> Weekly demos of working software, so you see the solution
+                        take shape — no surprises, no scope creep.</div>
+                </div>
+            </div>
 
-                                <!-- Service 3: Festivals & Public Gatherings -->
-                                <tr>
-                                    <td
-                                        style="padding-top: 24px; padding-bottom: 24px; border-bottom: 1px solid #1c1a12;">
-                                        <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                                            style="border-collapse: collapse;">
-                                            <tr>
-                                                <td width="46" valign="top" align="left"
-                                                    style="padding-top: 2px; padding-right: 20px;">
-                                                    <!-- Gold Circle Icon -->
-                                                    <table width="46" height="46" cellpadding="0" cellspacing="0"
-                                                        border="0"
-                                                        style="border: 1px solid #c9a227; border-radius: 50%; border-collapse: collapse; background-color: transparent; width: 46px; height: 46px;">
-                                                        <tr>
-                                                            <td align="center" valign="middle"
-                                                                style="padding: 0; margin: 0; text-align: center; vertical-align: middle; height: 44px; width: 44px;">
-                                                                <img src="https://img.icons8.com/ios-glyphs/24/c9a227/conference.png"
-                                                                    width="22" height="22" alt="Conference"
-                                                                    style="display: inline-block; vertical-align: middle; border: 0; outline: none;" />
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td valign="top" align="left" style="text-align: left;">
-                                                    <h3
-                                                        style="margin: 0 0 6px 0; font-size: 15px; font-weight: 500; color: #f3ead9; letter-spacing: 0.4px; line-height: 1.4;">
-                                                        Festivals &amp; Public Celebrations
-                                                    </h3>
-                                                    <p
-                                                        style="margin: 0; font-size: 13.5px; color: #9c9a89; line-height: 1.7; font-weight: 300;">
-                                                        Large-scale displays for cultural festivals like Navratri,
-                                                        government public gatherings, and massive community
-                                                        celebrations.
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
+            <div class="integrations">
+                <h4>We Connect To</h4>
+                <div class="tag-row">
+                    <span class="tag">Zoho &amp; Tally</span>
+                    <span class="tag">Razorpay &amp; Stripe</span>
+                    <span class="tag">SAP &amp; NetSuite</span>
+                    <span class="tag">Salesforce &amp; HubSpot</span>
+                    <span class="tag">WhatsApp Business API</span>
+                    <span class="tag">Shopify &amp; WooCommerce</span>
+                    <span class="tag">GST / e-Invoicing</span>
+                    <span class="tag">ZATCA (Saudi)</span>
+                    <span class="tag">Shiprocket &amp; Aramex</span>
+                    <span class="tag">OpenAI &amp; Anthropic</span>
+                </div>
+            </div>
 
-                                <!-- Service 4: Sports & Social Events -->
-                                <tr>
-                                    <td
-                                        style="padding-top: 24px; padding-bottom: 24px; border-bottom: 1px solid #1c1a12;">
-                                        <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                                            style="border-collapse: collapse;">
-                                            <tr>
-                                                <td width="46" valign="top" align="left"
-                                                    style="padding-top: 2px; padding-right: 20px;">
-                                                    <!-- Gold Circle Icon -->
-                                                    <table width="46" height="46" cellpadding="0" cellspacing="0"
-                                                        border="0"
-                                                        style="border: 1px solid #c9a227; border-radius: 50%; border-collapse: collapse; background-color: transparent; width: 46px; height: 46px;">
-                                                        <tr>
-                                                            <td align="center" valign="middle"
-                                                                style="padding: 0; margin: 0; text-align: center; vertical-align: middle; height: 44px; width: 44px;">
-                                                                <img src="https://img.icons8.com/ios-glyphs/24/c9a227/trophy.png"
-                                                                    width="22" height="22" alt="Trophy"
-                                                                    style="display: inline-block; vertical-align: middle; border: 0; outline: none;" />
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td valign="top" align="left" style="text-align: left;">
-                                                    <h3
-                                                        style="margin: 0 0 6px 0; font-size: 15px; font-weight: 500; color: #f3ead9; letter-spacing: 0.4px; line-height: 1.4;">
-                                                        Sports &amp; Social Events
-                                                    </h3>
-                                                    <p
-                                                        style="margin: 0; font-size: 13.5px; color: #9c9a89; line-height: 1.7; font-weight: 300;">
-                                                        Dynamic animations for stadium opening ceremonies, sports
-                                                        tournaments, and high-profile social gatherings.
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
+            <p style="margin-top:30px;">Tell us the problem you're solving right now. We'll map it in a discovery call
+                and come back with a written solution proposal within 5 business days.</p>
+            <div class="cta">
+                <a href="mailto:connect@wildmindai.com">Bring Us Your Problem</a>
+                <p>No commitment — just a scoped path from problem to working software.</p>
+            </div>
+        </div>
 
-                                <!-- Service 5: Spiritual Gatherings -->
-                                <tr>
-                                    <td
-                                        style="padding-top: 24px; padding-bottom: 24px; border-bottom: 1px solid #1c1a12;">
-                                        <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                                            style="border-collapse: collapse;">
-                                            <tr>
-                                                <td width="46" valign="top" align="left"
-                                                    style="padding-top: 2px; padding-right: 20px;">
-                                                    <!-- Gold Circle Icon -->
-                                                    <table width="46" height="46" cellpadding="0" cellspacing="0"
-                                                        border="0"
-                                                        style="border: 1px solid #c9a227; border-radius: 50%; border-collapse: collapse; background-color: transparent; width: 46px; height: 46px;">
-                                                        <tr>
-                                                            <td align="center" valign="middle"
-                                                                style="padding: 0; margin: 0; text-align: center; vertical-align: middle; height: 44px; width: 44px;">
-                                                                <img src="https://img.icons8.com/ios-glyphs/24/c9a227/pray.png"
-                                                                    width="22" height="22" alt="Spiritual"
-                                                                    style="display: inline-block; vertical-align: middle; border: 0; outline: none;" />
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td valign="top" align="left" style="text-align: left;">
-                                                    <h3
-                                                        style="margin: 0 0 6px 0; font-size: 15px; font-weight: 500; color: #f3ead9; letter-spacing: 0.4px; line-height: 1.4;">
-                                                        Spiritual Gatherings
-                                                    </h3>
-                                                    <p
-                                                        style="margin: 0; font-size: 13.5px; color: #9c9a89; line-height: 1.7; font-weight: 300;">
-                                                        Devotional aerial animations, symbols, and light shows for
-                                                        temple celebrations, festivals, and sacred assemblies.
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
+        <div class="sign">
+            Warm regards,<br>
+            <b>[Your Name]</b><br>
+            Wildmind Solutions
+        </div>
 
-                                <!-- Service 6 -->
-                                <tr>
-                                    <td
-                                        style="padding-top: 24px; padding-bottom: 24px; border-bottom: 1px solid #1c1a12;">
-                                        <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                                            style="border-collapse: collapse;">
-                                            <tr>
-                                                <td width="46" valign="top" align="left"
-                                                    style="padding-top: 2px; padding-right: 20px;">
-                                                    <!-- Gold Circle Icon -->
-                                                    <table width="46" height="46" cellpadding="0" cellspacing="0"
-                                                        border="0"
-                                                        style="border: 1px solid #c9a227; border-radius: 50%; border-collapse: collapse; background-color: transparent; width: 46px; height: 46px;">
-                                                        <tr>
-                                                            <td align="center" valign="middle"
-                                                                style="padding: 0; margin: 0; text-align: center; vertical-align: middle; height: 44px; width: 44px;">
-                                                                <img src="https://img.icons8.com/ios-glyphs/24/c9a227/star--v1.png"
-                                                                    width="22" height="22" alt="Star"
-                                                                    style="display: inline-block; vertical-align: middle; border: 0; outline: none;" />
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td valign="top" align="left" style="text-align: left;">
-                                                    <h3
-                                                        style="margin: 0 0 6px 0; font-size: 15px; font-weight: 500; color: #f3ead9; letter-spacing: 0.4px; line-height: 1.4;">
-                                                        Custom Aerial Displays
-                                                    </h3>
-                                                    <p
-                                                        style="margin: 0; font-size: 13.5px; color: #9c9a89; line-height: 1.7; font-weight: 300;">
-                                                        Fully bespoke animations designed around your theme,
-                                                        choreographed to music and scaled to your event.
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-
-                                <!-- Service 7 -->
-                                <tr>
-                                    <td style="padding-top: 24px; padding-bottom: 10px;">
-                                        <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                                            style="border-collapse: collapse;">
-                                            <tr>
-                                                <td width="46" valign="top" align="left"
-                                                    style="padding-top: 2px; padding-right: 20px;">
-                                                    <!-- Gold Circle Icon -->
-                                                    <table width="46" height="46" cellpadding="0" cellspacing="0"
-                                                        border="0"
-                                                        style="border: 1px solid #c9a227; border-radius: 50%; border-collapse: collapse; background-color: transparent; width: 46px; height: 46px;">
-                                                        <tr>
-                                                            <td align="center" valign="middle"
-                                                                style="padding: 0; margin: 0; text-align: center; vertical-align: middle; height: 44px; width: 44px;">
-                                                                <img src="https://img.icons8.com/ios-glyphs/24/c9a227/ok--v1.png"
-                                                                    width="22" height="22" alt="Check"
-                                                                    style="display: inline-block; vertical-align: middle; border: 0; outline: none;" />
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td valign="top" align="left" style="text-align: left;">
-                                                    <h3
-                                                        style="margin: 0 0 6px 0; font-size: 15px; font-weight: 500; color: #f3ead9; letter-spacing: 0.4px; line-height: 1.4;">
-                                                        End-to-End Execution
-                                                    </h3>
-                                                    <p
-                                                        style="margin: 0; font-size: 13.5px; color: #9c9a89; line-height: 1.7; font-weight: 300;">
-                                                        DGCA-compliant flight planning, permissions, and on-ground
-                                                        execution — every technical detail, handled.
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-
-                            </table>
-
-                            <!-- QUOTE SECTION -->
-                            <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                                style="border-collapse: collapse; margin: 30px 0 25px 0;">
-                                <tr>
-                                    <td
-                                        style="border-left: 2px solid #c9a227; padding-left: 20px; text-align: left; vertical-align: middle;">
-                                        <p
-                                            style="font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 15.5px; color: #d9d2b8; margin: 0; line-height: 1.7;">
-                                            "From weddings to grand corporate events, we bring your vision to life in
-                                            the night sky."
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            <!-- PITCH LINE -->
-                            <p
-                                style="font-size: 14.5px; line-height: 1.85; color: #aca997; font-weight: 300; margin: 0 0 35px 0;">
-                                I would love to share a few sample shows and a tailored proposal for your upcoming
-                                event.
-                            </p>
-
-                            <!-- CALL TO ACTION (CTA) -->
-                            <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                                style="border-collapse: collapse; margin-bottom: 20px;">
-                                <tr>
-                                    <td align="center">
-                                        <table cellpadding="0" cellspacing="0" border="0"
-                                            style="border-collapse: collapse;">
-                                            <tr>
-                                                <td align="center"
-                                                    style="border: 1px solid #c9a227; padding: 14px 40px; background-color: transparent;">
-                                                    <a href="https://www.flybitdynamics.com/contact" target="_blank"
-                                                        class="cta-btn"
-                                                        style="font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 2.5px; color: #f3ead9; text-decoration: none; text-transform: uppercase; display: block; transition: all 0.3s ease;">
-                                                        Book a Consultation
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-
-                        </td>
-                    </tr>
-
-                    <!-- SIGNATURE BLOCK -->
-                    <tr>
-                        <td style="padding: 10px 44px 35px 44px; text-align: left; background-color: #0a0a0c;">
-                            <p
-                                style="font-size: 13.5px; line-height: 1.8; color: #aca997; font-weight: 300; margin: 0;">
-                                Warm regards,<br />
-                                <strong style="color: #f3ead9; font-weight: 600;">Yash Dave (CMO)</strong><br />
-                                <span style="color: #c9a227; font-weight: 500;">+91 99798 50863</span><br />
-                                <span style="font-size: 12.5px; color: #8a8776;">Flybit Dynamics Pvt Ltd</span>
-                            </p>
-                        </td>
-                    </tr>
-
-                    <!-- FOOTER CONTAINER -->
-                    <tr>
-                        <td
-                            style="background-color: #050506; border-top: 1px solid #1c1a12; padding: 35px 44px 35px 44px;">
-
-                            <!-- FOOTER LOGO -->
-                            <div
-                                style="font-family: 'Playfair Display', Georgia, serif; font-size: 18px; font-weight: 700; letter-spacing: 3px; color: #f3ead9; text-transform: uppercase; margin-bottom: 25px; text-align: left;">
-                                FLY<span style="color: #c9a227;">BIT</span> DYNAMICS
-                            </div>
-
-                            <!-- TWO COLUMNS (ADDRESS & CONTACT) -->
-                            <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                                style="border-collapse: collapse; margin-bottom: 30px;">
-                                <tr>
-                                    <!-- Address Column -->
-                                    <td width="50%" valign="top" style="padding-right: 20px; text-align: left;">
-                                        <h4
-                                            style="font-size: 10.5px; letter-spacing: 2px; color: #c9a227; text-transform: uppercase; margin: 0 0 10px 0; font-weight: 600; line-height: 1.2;">
-                                            Address
-                                        </h4>
-                                        <p
-                                            style="font-size: 12.5px; color: #918f7f; line-height: 1.7; margin: 0; font-weight: 300;">
-                                            511, Satyamev Eminence,<br />
-                                            Science City Road, Sola,<br />
-                                            Ahmedabad – 380060, Gujarat, India
-                                        </p>
-                                    </td>
-
-                                    <!-- Contact Details Column -->
-                                    <td width="50%" valign="top" style="text-align: left;">
-                                        <h4
-                                            style="font-size: 10.5px; letter-spacing: 2px; color: #c9a227; text-transform: uppercase; margin: 0 0 10px 0; font-weight: 600; line-height: 1.2;">
-                                            Contact Details
-                                        </h4>
-                                        <p
-                                            style="font-size: 12.5px; color: #918f7f; line-height: 1.7; margin: 0; font-weight: 300;">
-                                            <a href="tel:+919979850863"
-                                                style="color: #c9a227; text-decoration: none;">+91 99798 50863</a><br />
-                                            <a href="tel:+919227428262"
-                                                style="color: #c9a227; text-decoration: none;">+91 92274 28262</a><br />
-                                            <a href="mailto:flybitdynamics@gmail.com"
-                                                style="color: #c9a227; text-decoration: none;">flybitdynamics@gmail.com</a><br />
-                                            <a href="https://www.flybitdynamics.com"
-                                                style="color: #c9a227; text-decoration: none;">www.flybitdynamics.com</a><br />
-                                            <a href="https://linktr.ee/flybitdynamics" target="_blank"
-                                                style="color: #c9a227; text-decoration: none; font-weight: 500;">Portfolio</a>
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            <!-- DIVIDER LINE -->
-                            <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                                style="border-collapse: collapse; margin-bottom: 20px;">
-                                <tr>
-                                    <td height="1" style="background-color: #1c1a12; font-size: 1px; line-height: 1px;">
-                                        &nbsp;</td>
-                                </tr>
-                            </table>
-
-                            <!-- SOCIAL LINKS & LEGAL DISCLAIMER -->
-                            <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                                style="border-collapse: collapse;">
-                                <tr>
-                                    <!-- Social Icons Row -->
-                                    <td align="left" style="padding-bottom: 12px;">
-                                        <table cellpadding="0" cellspacing="0" border="0"
-                                            style="border-collapse: collapse;">
-                                            <tr>
-                                                <td style="padding-right: 14px;">
-                                                    <a href="https://www.instagram.com/flybitdynamics" target="_blank"
-                                                        style="text-decoration: none; display: block;">
-                                                        <img src="https://img.icons8.com/color/24/instagram-new.png"
-                                                            width="24" height="24" alt="Instagram"
-                                                            style="display: block; border: 0;" />
-                                                    </a>
-                                                </td>
-                                                <td style="padding-right: 14px;">
-                                                    <a href="https://www.youtube.com/@FlybitDynamics" target="_blank"
-                                                        style="text-decoration: none; display: block;">
-                                                        <img src="https://img.icons8.com/color/24/youtube-play.png"
-                                                            width="24" height="24" alt="YouTube"
-                                                            style="display: block; border: 0;" />
-                                                    </a>
-                                                </td>
-                                                <td style="padding-right: 14px;">
-                                                    <a href="https://www.facebook.com/people/Flybit-Dynamics/61589896906062/?rdid=Bd8Ml8dz4ud6iiD9&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1HvNd1PJDe%2F"
-                                                        target="_blank" style="text-decoration: none; display: block;">
-                                                        <img src="https://img.icons8.com/color/24/facebook-new.png"
-                                                            width="24" height="24" alt="Facebook"
-                                                            style="display: block; border: 0;" />
-                                                    </a>
-                                                </td>
-                                                <td style="padding-right: 14px;">
-                                                    <a href="https://www.threads.com/@flybitdynamics" target="_blank"
-                                                        style="text-decoration: none; display: block;">
-                                                        <img src="https://img.icons8.com/ios-filled/24/ffffff/threads.png"
-                                                            width="24" height="24" alt="Threads"
-                                                            style="display: block; border: 0;" />
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    <a href="https://www.linkedin.com/company/flybitdynamics"
-                                                        target="_blank" style="text-decoration: none; display: block;">
-                                                        <img src="https://img.icons8.com/color/24/linkedin.png"
-                                                            width="24" height="24" alt="LinkedIn"
-                                                            style="display: block; border: 0;" />
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <!-- Legal Text Row -->
-                                    <td align="left">
-                                        <p
-                                            style="font-size: 10px; color: #4f4d40; margin: 0; letter-spacing: 0.5px; text-align: left; line-height: 1.4;">
-                                            This communication is confidential and intended solely for the recipient.
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-
-                        </td>
-                    </tr>
-
-                </table>
-            </td>
-        </tr>
-    </table>
+        <!-- FOOTER -->
+        <div class="footer">
+            <div class="footer-logo">WILD<span>MIND</span> SOLUTIONS</div>
+            <p>
+                Ahmedabad, India — Serving India and the GCC<br>
+                <a href="mailto:connect@wildmindai.com">connect@wildmindai.com</a> &nbsp;&middot;&nbsp; +91 95713
+                55543<br>
+                <a href="https://solutions.wildmindai.com">solutions.wildmindai.com</a>
+            </p>
+            <p class="legal">This communication is confidential and intended solely for the recipient.</p>
+        </div>
+    </div>
 </body>
 
 </html>

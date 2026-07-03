@@ -3,8 +3,6 @@ generator client {
 }
 
 datasource db {
-  // Local dev default = SQLite (zero setup). For production switch this to
-  // "postgresql" and point DATABASE_URL at your Postgres (see README).
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
@@ -30,6 +28,7 @@ model Campaign {
   emailSubject String?
   emailBody    String?
   templateAttachmentName String?
+  isCustomTemplate Boolean @default(false)
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)

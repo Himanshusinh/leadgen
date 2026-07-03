@@ -37,45 +37,64 @@ export async function fetchPlaces(q: Query): Promise<RawLead[]> {
     throw new Error("GOOGLE_PLACES_API_KEY is not set (and DEMO_MODE is off).");
   }
 
-  const res = await fetch("https://places.googleapis.com/v1/places:searchText", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Goog-Api-Key": key,
-      // Field mask controls which fields (and billing tier) are returned.
-      "X-Goog-FieldMask": [
-        "places.displayName",
-        "places.formattedAddress",
-        "places.internationalPhoneNumber",
-        "places.websiteUri",
-        "places.rating",
-        "places.userRatingCount",
-        "places.id",
-      ].join(","),
-    },
-    body: JSON.stringify({ textQuery: buildQueryString(q), maxResultCount: 20 }),
-    // Places API is server-to-server; don't cache personalised business pulls.
-    cache: "no-store",
-  });
+  const allPlaces: any[] = [];
+  let pageToken: string | undefined = undefined;
 
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`Google Places error ${res.status}: ${text.slice(0, 300)}`);
+  for (let i = 0; i < 3; i++) {
+    const requestBody: any = {
+      textQuery: buildQueryString(q),
+      maxResultCount: 20,
+    };
+    if (pageToken) {
+      requestBody.pageToken = pageToken;
+    }
+
+    const res = await fetch("https://places.googleapis.com/v1/places:searchText", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": key,
+        "X-Goog-FieldMask": [
+          "places.displayName",
+          "places.formattedAddress",
+          "places.internationalPhoneNumber",
+          "places.websiteUri",
+          "places.rating",
+          "places.userRatingCount",
+          "places.id",
+          "nextPageToken",
+        ].join(","),
+      },
+      body: JSON.stringify(requestBody),
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      console.error(`Google Places API error (page ${i + 1}):`, text);
+      if (allPlaces.length > 0) break;
+      throw new Error(`Google Places error ${res.status}: ${text.slice(0, 300)}`);
+    }
+
+    const data = (await res.json()) as {
+      places?: any[];
+      nextPageToken?: string;
+    };
+
+    if (data.places && data.places.length > 0) {
+      allPlaces.push(...data.places);
+    }
+
+    if (!data.nextPageToken) {
+      break;
+    }
+    pageToken = data.nextPageToken;
+
+    // Small delay between page requests
+    await new Promise((resolve) => setTimeout(resolve, 500));
   }
 
-  const data = (await res.json()) as {
-    places?: Array<{
-      displayName?: { text?: string };
-      formattedAddress?: string;
-      internationalPhoneNumber?: string;
-      websiteUri?: string;
-      rating?: number;
-      userRatingCount?: number;
-      id?: string;
-    }>;
-  };
-
-  return (data.places ?? []).map((p) => ({
+  return allPlaces.map((p) => ({
     name: p.displayName?.text ?? "Unknown",
     website: p.websiteUri,
     phone: p.internationalPhoneNumber,
@@ -93,6 +112,13 @@ function demoLeads(q: Query): RawLead[] {
   const names = [
     "Sunrise", "Green Valley", "Metro", "Prime", "Lakeside",
     "Citywide", "Apex", "Harmony", "Pioneer", "Evergreen",
+    "Summit", "Beacon", "Horizon", "Crestview", "Northstar",
+    "Valley View", "Silverline", "Golden Gate", "Redwood", "Blue Ocean",
+    "Starlight", "Cloud Nine", "Infinity", "Quantum", "Omega",
+    "Alpha", "Delta", "Eclipse", "Solstice", "Equinox",
+    "Nova", "Supernova", "Aurora", "Nebula", "Galaxy",
+    "Cosmos", "Voyager", "Discovery", "Endeavour", "Challenger",
+    "Enterprise", "Columbia", "Atlantis", "Falcon", "Eagle"
   ];
   return names.map((n, i) => ({
     name: `${n} ${base[0].toUpperCase() + base.slice(1)} Center`,

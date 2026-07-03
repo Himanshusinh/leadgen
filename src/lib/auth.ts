@@ -36,12 +36,24 @@ export function clearSession() {
 
 /** Returns userId or null. Use in API routes / server components. */
 export async function getUserId(): Promise<string | null> {
-  const token = cookies().get(COOKIE)?.value;
-  if (!token) return null;
+  const defaultUserId = "default-user-id";
   try {
-    const { payload } = await jwtVerify(token, secret());
-    return (payload.sub as string) ?? null;
-  } catch {
-    return null;
+    const { prisma } = await import("@/lib/db");
+    const user = await prisma.user.findUnique({
+      where: { id: defaultUserId },
+    });
+    if (!user) {
+      await prisma.user.create({
+        data: {
+          id: defaultUserId,
+          email: "default@leadgen.com",
+          password: "insecure-password-auth-bypassed",
+          name: "Default User",
+        },
+      });
+    }
+  } catch (e) {
+    console.error("Failed to ensure default user exists:", e);
   }
+  return defaultUserId;
 }

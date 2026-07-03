@@ -30,13 +30,16 @@ export default async function CampaignPage({ params }: { params: { id: string } 
   });
   if (!campaign) notFound();
 
-  // If the campaign has no template body, initialize it with the file contents
-  if (templateFileContent && !campaign.emailBody) {
-    campaign = await prisma.campaign.update({
-      where: { id: campaign.id },
-      data: { emailBody: templateFileContent },
-      include: { leads: { orderBy: [{ score: "desc" }, { createdAt: "desc" }] } },
-    });
+  // If the campaign template has not been customized via the UI, or is empty,
+  // automatically sync it from the email_template.html file on disk if it differs.
+  if (templateFileContent && (!campaign.isCustomTemplate || !campaign.emailBody)) {
+    if (campaign.emailBody !== templateFileContent) {
+      campaign = await prisma.campaign.update({
+        where: { id: campaign.id },
+        data: { emailBody: templateFileContent },
+        include: { leads: { orderBy: [{ score: "desc" }, { createdAt: "desc" }] } },
+      });
+    }
   }
 
   const uncontactedEmailCount = campaign.leads.filter(l => l.email && !l.emailSentAt).length;

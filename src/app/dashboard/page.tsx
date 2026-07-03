@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import { getUserId } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import NewCampaignForm from "@/components/NewCampaignForm";
-import LogoutButton from "@/components/LogoutButton";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +23,6 @@ export default async function Dashboard() {
           <h1 className="text-2xl font-semibold">Campaigns</h1>
           <p className="text-sm text-slate-500">Create a campaign, then fetch & enrich leads.</p>
         </div>
-        <LogoutButton />
       </header>
 
       <div className="mt-8 grid gap-8 md:grid-cols-[360px_1fr]">

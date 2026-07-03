@@ -82,6 +82,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       emailSubject: subject || null,
       emailBody: body || null,
       templateAttachmentName,
+      isCustomTemplate: true,
     },
   });
 
