@@ -23,6 +23,12 @@ export default async function Dashboard() {
           <h1 className="text-2xl font-semibold">Campaigns</h1>
           <p className="text-sm text-slate-500">Create a campaign, then fetch & enrich leads.</p>
         </div>
+        <Link
+          href="/dashboard/custom-send"
+          className="rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 transition shadow-sm"
+        >
+          Email Custom List
+        </Link>
       </header>
 
       <div className="mt-8 grid gap-8 md:grid-cols-[360px_1fr]">
