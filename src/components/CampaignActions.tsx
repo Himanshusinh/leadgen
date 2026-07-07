@@ -21,7 +21,7 @@ export default function CampaignActions({
   hasTemplate?: boolean;
 }) {
   const router = useRouter();
-  const [busy, setBusy] = useState<null | "fetch" | "enrich">(null);
+  const [busy, setBusy] = useState<null | "fetch" | "enrich" | "delete">(null);
   const [msg, setMsg] = useState<string | null>(null);
 
   // Template Modal State
@@ -144,6 +144,28 @@ export default function CampaignActions({
     }
   }
 
+  async function handleDeleteCampaign() {
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this campaign? This action is permanent and will delete all associated leads."
+      )
+    ) {
+      return;
+    }
+    setBusy("delete");
+    try {
+      const res = await fetch(`/api/campaigns/${campaignId}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Failed to delete campaign");
+      router.push("/dashboard");
+      router.refresh();
+    } catch (err: any) {
+      alert(err.message || "Failed to delete campaign");
+      setBusy(null);
+    }
+  }
+
   return (
     <>
       <div className="flex flex-col items-end gap-2">
@@ -182,6 +204,21 @@ export default function CampaignActions({
           >
             Export CSV
           </a>
+          <button
+            onClick={handleDeleteCampaign}
+            disabled={busy !== null}
+            className="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-100 disabled:opacity-50 flex items-center gap-1.5 transition"
+            title="Delete Campaign"
+          >
+            {busy === "delete" ? (
+              <>
+                <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-red-700 border-t-transparent"></span>
+                Deleting…
+              </>
+            ) : (
+              "Delete Campaign"
+            )}
+          </button>
         </div>
         {msg && <p className="text-sm text-slate-500">{msg}</p>}
       </div>

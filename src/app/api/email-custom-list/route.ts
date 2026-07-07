@@ -43,42 +43,42 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "No valid email addresses provided" }, { status: 400 });
   }
 
-  // Find the latest campaign that has an active subject and body template config
-  const latestCampaign = await prisma.campaign.findFirst({
-    where: {
-      userId,
-      emailSubject: { not: null },
-      emailBody: { not: null },
+  // Load master template from User settings
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      masterSubject: true,
+      masterBody: true,
+      masterAttachmentName: true,
     },
-    orderBy: { createdAt: "desc" },
   });
 
   let subject = "Drone Light Show · India";
   let templateBody = "";
   const attachments: Array<{ filename: string; content: Buffer }> = [];
 
-  if (latestCampaign) {
-    subject = latestCampaign.emailSubject || subject;
-    templateBody = latestCampaign.emailBody || "";
+  if (user && user.masterSubject && user.masterBody) {
+    subject = user.masterSubject;
+    templateBody = user.masterBody;
 
     // Load attachment if it exists
-    if (latestCampaign.templateAttachmentName) {
+    if (user.masterAttachmentName) {
       try {
         const filePath = path.join(
           process.cwd(),
           "public",
           "uploads",
           "templates",
-          latestCampaign.id,
-          latestCampaign.templateAttachmentName
+          "master",
+          user.masterAttachmentName
         );
         const buffer = await fs.readFile(filePath);
         attachments.push({
-          filename: latestCampaign.templateAttachmentName,
+          filename: user.masterAttachmentName,
           content: buffer,
         });
       } catch (e) {
-        console.error("Failed to read campaign template attachment for global send:", e);
+        console.error("Failed to read master template attachment for direct send:", e);
       }
     }
   } else {

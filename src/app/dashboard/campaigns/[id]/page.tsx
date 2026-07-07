@@ -30,13 +30,55 @@ export default async function CampaignPage({ params }: { params: { id: string } 
   });
   if (!campaign) notFound();
 
+  // Load current user profile details to get master template configurations
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      masterSubject: true,
+      masterBody: true,
+      masterAttachmentName: true,
+    },
+  });
+
+  const activeMasterSubject = user?.masterSubject || "Drone Light Show · India";
+  const activeMasterBody = user?.masterBody || templateFileContent || "";
+  const activeMasterAttachment = user?.masterAttachmentName || null;
+
   // If the campaign template has not been customized via the UI, or is empty,
-  // automatically sync it from the email_template.html file on disk if it differs.
-  if (templateFileContent && (!campaign.isCustomTemplate || !campaign.emailBody)) {
-    if (campaign.emailBody !== templateFileContent) {
+  // automatically sync it from the User's master template settings.
+  if (!campaign.isCustomTemplate || !campaign.emailBody) {
+    const hasSubjectChanged = campaign.emailSubject !== activeMasterSubject;
+    const hasBodyChanged = campaign.emailBody !== activeMasterBody;
+    const hasAttachmentChanged = campaign.templateAttachmentName !== activeMasterAttachment;
+
+    if (hasSubjectChanged || hasBodyChanged || hasAttachmentChanged) {
+      // If there is a master attachment file, copy it to the campaign's uploads directory
+      if (activeMasterAttachment) {
+        try {
+          const masterFilePath = path.join(
+            process.cwd(),
+            "public",
+            "uploads",
+            "templates",
+            "master",
+            activeMasterAttachment
+          );
+          const campaignUploadDir = path.join(process.cwd(), "public", "uploads", "templates", campaign.id);
+          await fs.promises.mkdir(campaignUploadDir, { recursive: true });
+          const campaignFilePath = path.join(campaignUploadDir, activeMasterAttachment);
+          await fs.promises.copyFile(masterFilePath, campaignFilePath);
+        } catch (err) {
+          console.error("Failed to copy master template attachment to campaign upload directory:", err);
+        }
+      }
+
       campaign = await prisma.campaign.update({
         where: { id: campaign.id },
-        data: { emailBody: templateFileContent },
+        data: {
+          emailSubject: activeMasterSubject,
+          emailBody: activeMasterBody,
+          templateAttachmentName: activeMasterAttachment,
+        },
         include: { leads: { orderBy: [{ score: "desc" }, { createdAt: "desc" }] } },
       });
     }
